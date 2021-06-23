@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-
 const EventPracticeFunc = () => {
     const [form, setForm] = useState({
-        username: '',
-        message: ''
+        username: '', message: ''
     });
     const { username, message } = form;
     const onChange = e => {
@@ -13,12 +11,10 @@ const EventPracticeFunc = () => {
         };
         setForm(nextForm);
     };
-
     const onClick = () => {
         alert(username + ': ' + message);
         setForm({
-            username: '',
-            message: ''
+            username: '', message: ''
         });
     };
     const onKeyPress = e => {
@@ -39,7 +35,7 @@ const EventPracticeFunc = () => {
             <input
                 type="text"
                 name="message"
-                placeholder="아무거나 입력해 보세요"
+                placeholder="아무거나 입력하세요"
                 value={message}
                 onChange={onChange}
                 onKeyPress={onKeyPress}

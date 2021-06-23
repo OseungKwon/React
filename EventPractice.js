@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 class EventPractice extends Component {
     state = {
-        username: '',
-        message: ''
+        message: '',
+        username: ''
     }
+    /*
+    (constructor(props) {//함수 설정할때는 state말고 constructor 사용
+        super(props);
+        this.handleChange = this.handleChange.bind(this);//this를 컴포넌트 자신으로 제대로 가리키기 위해 메서드를 this와 바인딩
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleChange(e){
+        this.setState({
+            message: e.target.value
+        });
+    }
+    */
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
-    handleClick = () => {
+    handleClick = (e) => {
         alert(this.state.username + ': ' + this.state.message);
         this.setState({
-            username: '',
-            message: ''
+            message: '', username: ''
         });
     }
-
-    handlePress = (e) => {
+    handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             this.handleClick();
         }
@@ -36,10 +46,10 @@ class EventPractice extends Component {
                 <input
                     type="text"
                     name="message"
-                    placeholder="아무거나 입력해보세요"
+                    placeholder="아무거나 입력해 보세요"
                     value={this.state.message}
                     onChange={this.handleChange}
-                    onKeyPress={this.handlePress}
+                    onKeyPress={this.handleKeyPress}
                 />
                 <button onClick={this.handleClick}>확인</button>
             </div>

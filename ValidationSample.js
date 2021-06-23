@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './ValidationSample.css';
-
 class ValidationSample extends Component {
-    state = {
+    state = { // js와 달리 React에서는 굳이 DOM에 접근하지 않아도, id대신 state를 사용하기에 더 쉬움.
         password: '',
         clicked: false,
         validated: false
@@ -19,11 +18,6 @@ class ValidationSample extends Component {
         });
         this.input.focus();
     }
-    handlePress = (e) => {
-        if (e.key === 'Enter') {
-            this.handleButtonClick();
-        }
-    }
     render() {
         return (
             <div>
@@ -32,12 +26,11 @@ class ValidationSample extends Component {
                     type="password"
                     value={this.state.password}
                     onChange={this.handleChange}
-                    onKeyPress={this.handlePress}
                     className={this.state.clicked ? (this.state.validated ? 'success' : 'failure') : ''}
                 />
                 <button onClick={this.handleButtonClick}>검증하기</button>
             </div>
-        );
+        )
     }
 }
 export default ValidationSample;
