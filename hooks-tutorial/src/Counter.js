@@ -1,3 +1,4 @@
+// useState: 가장 기본적인 Hook, 함수형 컴포넌트에서도 가변적인 상태를 지닐 수 있게 해준다.
 import React, { useState } from 'react';
 const Counter = () => {
     const [value, setValue] = useState(0);
