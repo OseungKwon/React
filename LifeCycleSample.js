@@ -10,11 +10,14 @@ class LifeCycleSample extends Component {
         color: null
     };
     myRef = null; // ref를 설정할 부분
+    // 컴포넌트의 생성자 메서드로 컴포넌트를 만들 때 처음으로 실행
+    // 초기 state 정할 수 있음
     constructor(props) {
         super(props);
         console.log('constructor');
     }
     // props로 받아 온 값을 state에 동기화시키는 용도로 사용
+    // 직역: props로부터 파생된 state를 get한다.
     static getDerivedStateFromProps(nextProps, prevState) {
         console.log('getDerivedStateFromProps');
         if (nextProps.color !== prevState.color) {
@@ -69,7 +72,7 @@ class LifeCycleSample extends Component {
         };
         return (
             <div>
-                { }
+                {/*this.props.missing.value*/}
                 <h1 style={style} ref={ref => (this.myRef = ref)}>
                     {this.state.number}
                 </h1>
