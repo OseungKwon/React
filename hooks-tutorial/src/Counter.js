@@ -1,4 +1,4 @@
-// useState: 가장 기본적인 Hook, 함수형 컴포넌트에서도 가변적인 상태를 지닐 수 있게 해준다.
+// useRender: useState보다 더 다양한 컴포넌트 상황에 따라 다양한 상태를 다른 값으로 업데이트할 때 사용
 import React, { useReducer } from 'react';
 
 function reducer(state, action) { // action: 현재 상태, 업데이트를 위해 필요한 정보를 가지고 있음.
@@ -14,6 +14,8 @@ function reducer(state, action) { // action: 현재 상태, 업데이트를 위�
 
 
 const Counter = () => {
+    // state: 현재 가리키고 있는 상태
+    // dispatch: 액션을 발생시키는 함수
     const [state, dispatch] = useReducer(reducer, { value: 0 });
     return (
         <div>

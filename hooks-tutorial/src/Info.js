@@ -1,25 +1,28 @@
 //useEffect: 리액트 컴포넌트가 렌더링 될 때마다 특정 작업을 수행하도록 설정할 수 있는 Hook
-import React, { useEffect, useState } from 'react';
+import React, { useReducer } from 'react';
+function reducer(state, action) {
+    return {
+        ...state,
+        [action.name]: action.value
+    }
+}
+
+
 const Info = () => {
-    const [name, setName] = useState('');
-    const [nickname, setNickname] = useState('');
-    useEffect(() => {
-        console.log('effect');
-        return () => {
-            console.log('unmount');
-        };
-    }, []); // 클래스형 컴포넌트에서 componentDidUpdate와 같은 작업
-    const onChangeName = e => {
-        setName(e.target.value);
-    }
-    const onChangeNickname = e => {
-        setNickname(e.target.value);
-    }
+    const [state, dispatch] = useReducer(reducer, {
+        name: '',
+        nickname: ''
+    });
+    const { name, nickname } = state;
+    const onChange = e => {
+        dispatch(e.target);
+    };
+
     return (
         <div>
             <div>
-                <input value={name} onChange={onChangeName} />
-                <input value={nickname} onChange={onChangeNickname} />
+                <input name="name" value={name} onChange={onChange} />
+                <input name="nickname" value={nickname} onChange={onChange} />
             </div>
             <div>
                 <div>
