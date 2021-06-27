@@ -1,0 +1,16 @@
+.TodoTemplate{
+    border: 1px solid black;
+    width: 50vw;
+    margin: 6rem auto 0 auto;
+    
+    .appTitle{
+        background: #e44232;
+        color: white;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.4em;
+    }
+}
