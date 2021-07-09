@@ -1,50 +1,58 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useReducer, useRef, useCallback } from 'react';
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 
-const App = () => {
-  const [todos, setTodos] = useState([
-    // useState 사용. 초기화
-    {
-      id: 1,
-      text: '리액트의 기초 알아보기',
-      checked: true,
-    },
-    {
-      id: 2,
-      text: '컴포넌트 스타일링 해보기',
-      checked: true,
-    },
-    {
-      id: 3,
-      text: '일정 관리 앱 만들어 보기',
+
+function createBulkTodos() {
+  const array = [];
+  for (let i = 1; i <= 2500; i++) {
+    array.push({
+      id: i,
+      text: `할 일 ${i}`,
       checked: false,
-    },
-  ]);
+    });
+  }
+  return array;
+}
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case 'INSERT':
+      return todos.concat(action.todo);
+    case 'REMOVE':
+      return todos.filter(todo => todo.id !== action.id);
+    case 'TOGGLE':
+      return todos.map(todo =>
+        todo.id === action.id ? { ...todo, checked: !todo.checked } : todo
+      );
+    default:
+      return todos;
+  }
+}
+const App = () => {
+  // 원래 2번째 파라미터에 초기 상태를 넣어줘야 하지만,
+  // 2번째에 undefined, 3번째에 초기 상태를 넣어줘 
+  // 컴포넌트가 맨 처음 렌더링 될 시에만 createBulkTodos 호출
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
   // 다음 id값을 저장
-  const nextId = useRef(4);
+  const nextId = useRef(2501);
 
   // id값이 같을 때, checked 상태를 바꿈
   const onToggle = useCallback(
     id => {
-      setTodos(
-        todos.map(todo =>
-          // ...todo 부분이 없으면 text포함해 다 날라감
-          // 굳이 todo.id===id 부분을 넣는 이유는 onRemove시 id가 날라가기 때문
-          todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-        ),
-      );
+      dispatch({ type: 'TOGGLE', id });
     },
-    [todos],
+    [],
   );
 
   // todo.id !== id를 만족하는(클릭한 요소의 id와 일치하지 않는) 요소들을 모아 새로운 배열을 만듦
   const onRemove = useCallback(
     id => {
-      setTodos(todos.filter(todo => todo.id !== id));
+      // 어떻게 업데이트 할 지 정의해 주는 업데이트 함수 넣어서,
+      // useCallback 할 때 두 번째 파라미터를 안넣을 수 있음.
+      dispatch({ type: 'REMOVE', id });
     },
-    [todos],
+    [],
   );
 
   // onInsert에서  값이 들어오면 정리하고 다음 값 준비
@@ -55,10 +63,10 @@ const App = () => {
         text,
         checked: false,
       };
-      setTodos(todos.concat(todo));
+      dispatch({ type: 'INSERT', todo });
       nextId.current += 1; // nextId 1 씩 더하기
     },
-    [todos],
+    [],
   );
   return <TodoTemplate>
     <TodoInsert onInsert={onInsert} />

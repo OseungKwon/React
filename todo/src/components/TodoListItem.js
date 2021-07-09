@@ -9,22 +9,25 @@ import {
 import cn from 'classnames';
 import './TodoListItem.scss';
 
-const TodoListItem = ({ todo, onRemove, onToggle }) => {
+const TodoListItem = ({ todo, onRemove, onToggle, style }) => {
     const { id, text, checked } = todo;
 
     // cn("checkbox", {checked})  -->  classnames 조건부 클래스 설정 
     // checked 가 false 일 경우 적용 x
     return (
-        <div className="TodoListItem">
-            <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
-                {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
-                <div className="text">{text}</div>
-            </div>
-            <div className="remove" onClick={() => onRemove(id)}>
-                <MdRemoveCircleOutline />
-            </div>
-        </div>
+        <div className="TodoListItem-virtualized" style={style}>
+            < div className="TodoListItem" >
+                <div className={cn('checkbox', { checked })} onClick={() => onToggle(id)}>
+                    {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+                    <div className="text">{text}</div>
+                </div>
+                <div className="remove" onClick={() => onRemove(id)}>
+                    <MdRemoveCircleOutline />
+                </div>
+            </div >
+        </div >
     );
 };
-
-export default TodoListItem;
+// React.memo를 사용해 todo, onRemove, onToggle (props)
+// 가 바뀌지 않으면 리렌더링 하지 않는다.
+export default React.memo(TodoListItem);
